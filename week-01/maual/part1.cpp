@@ -1,10 +1,10 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <iomanip>
-#include <sstream>
 using namespace std;
 
-int main(){
+int main() {
     string input;
     getline(cin,input);
     stringstream ss(input);
@@ -14,8 +14,7 @@ int main(){
     int passed = 0;
     double total = 0;
     double highest = 0;
-    double lowest = 0;
-
+    double lowest = 100;
     while(ss >> value){
         try{
             double mark = stod(value);
@@ -24,28 +23,38 @@ int main(){
             }
             valid++;
             total += mark;
+
             if(mark > highest){
                 highest = mark;
             }
             if(mark < lowest){
                 lowest = mark;
             }
-            if(mark < 50){
+            if(mark >= 50){
                 passed++;
             }
         }
         catch(...){
             continue;
         }
-
     }
     if(valid == 0){
-        cout << "No" << endl;
+        cout << "message, no crush" << endl;
     }
     else{
         double average = total/valid;
-        double passRate = (double)passed/valid *100;
+        double passRate = (double)passed/valid*100;
 
-        
+        cout << "Valid: " << valid << endl;
+        cout << fixed << setprecision(2);
+        cout << "Average: " << average << endl;
+        cout << "Highest: " << highest << endl;
+        cout << "Lowest: " << lowest << endl;
+        cout << fixed << setprecision(1);
+        cout << "Pass rate: " << passRate << "%"<<endl;
+
+
     }
+
+    return 0;
 }
