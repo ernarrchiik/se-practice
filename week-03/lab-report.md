@@ -380,3 +380,7 @@ Answer all three:
 
 Be specific. "The AI was useful" is worth nothing; "UC-06 had no story behind it until I wrote
 US-07, and the checker is what told me" is worth everything.
+
+1.The initial stories contained the most errors. The AI ​​introduced numerous elements that were not part of our original scenario. For instance, story US-01 included an equipment filter, while story #7 featured QR-code registration and a student waitlist. I can identify these errors without a specialized validation tool simply by comparing each story against the six functions and the "out-of-scope" list in the README file. While the program helped with formatting, it cannot explain errors related to the actual content or logic.
+2.The AI ​​handled the "Given, When, Then" structure excellently. It accounted for scenarios such as successful booking, booking for a past time, long-term rental, overlapping bookings, and room blocking. Creating all of this from scratch would have taken me much longer. The diagram also correctly identified the two actors outside the system boundaries and all six use cases.
+3.Before handing the requirements over to the developer, I would rewrite item AC-01. Currently, it verifies a successful one-hour booking, whereas our terms allow for bookings of exactly two hours. I would use the two-hour booking example, as the developer needs a clear reference for this boundary case. Without it, the developer might misinterpret the maximum duration and reject a valid booking request.
