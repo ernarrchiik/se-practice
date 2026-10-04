@@ -1,0 +1,41 @@
+@startuml
+skinparam DefaultTextAlignment center
+
+start
+
+:Student selects room and time slot;
+
+if (Valid time range? (R1)) then ([yes])
+  note right
+    startTime > current time
+    0 < endTime - startTime <= 2 hours
+  end note
+else ([no])
+  :Reject booking: invalid time range;
+  stop
+endif
+
+if (Room blocked? (R3)) then ([no])
+else ([yes])
+  :Reject booking: room is blocked;
+  stop
+endif
+
+if (Requested slot overlaps an ACTIVE\nbooking for this room? (R2)) then ([no])
+  note right
+    Overlap:
+    requestedStart < existingEnd and
+    existingStart < requestedEnd
+
+    Assumption: touching bookings are allowed.
+  end note
+else ([yes])
+  :Reject booking: overlapping time slot;
+  stop
+endif
+
+:Create and save ACTIVE Booking;
+:Send confirmation to Student (R4);
+stop
+
+@enduml
