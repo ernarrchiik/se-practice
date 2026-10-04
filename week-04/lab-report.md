@@ -135,9 +135,11 @@ critique is another claim to evaluate, not a verdict: reject what is wrong and s
 
 | # | Issue the AI raised | Element it cited | Verdict | Why |
 | --- | --- | --- | --- | --- |
-| 1 | <issue> | <element> | <accept / reject> | <your reason> |
-| 2 | <issue> | <element> | <accept / reject> | <your reason> |
-| 3 | <issue> | <element> | <accept / reject> | <your reason> |
+| 1 |Administrator class and management association are missing. | Administrator actor; US-05 and US-06; class diagram. | Reject | An actor does not automatically require a domain class. Room already has block and unblock operations. The proposed association would require exactly one administrator per room, which the scenario does not specify. |
+| 2 |Usage review is described only in a note, without an operation. | Room note for US-05. | Accept | The existing bookings support usage review, but an explicit query makes the selected-period behavior clearer. Added bookingsForPeriod(startTime, endTime) to Room without introducing a reporting class. |
+| 3 |Activity decisions must invoke Room.isAvailable. | Room.isAvailable and the three activity decisions. | Reject | An activity diagram describes workflow and does not have to show method calls. Separate decisions visibly check R1, R3 and R2, as Task 3B requires. Replacing them with one availability decision would hide the individual rejection reasons. |
+| 4 |US-03 has no R2 mapping. | US-03 Rules column. | Reject | The approved stories table already maps US-03 to R2. Ownership is required by the scenario and US-03, rather than by a separate numbered rule. No correction is needed. |
+| 5 |Send confirmation must be renamed to match Receive confirmation. | UC4 and US-04. | Reject | These describe the same outcome from different perspectives: the system sends confirmation and the student receives it. R4 justifies the included system action, and no actor is directly associated with it. |
 
 ---
 
