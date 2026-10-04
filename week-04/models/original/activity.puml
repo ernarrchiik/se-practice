@@ -1,0 +1,28 @@
+@startuml
+skinparam DefaultTextAlignment center
+
+start
+
+:Student selects room and time slot;
+
+if (R1: Is start time in future AND\nduration > 0 and <= 2 hours?) then (no)
+  :Reject booking:\nInvalid time range;
+  stop
+else (yes)
+  if (R3: Is the room currently blocked?) then (yes)
+    :Reject booking:\nRoom is blocked;
+    stop
+  else (no)
+    if (R2: Do active bookings for\nthis room overlap?) then (yes)
+      :Reject booking:\nTime slot overlaps with existing booking;
+      stop
+    else (no)
+      :Create and save booking;
+      :R4: Generate booking confirmation;
+      :Display success confirmation to student;
+      stop
+    endif
+  endif
+endif
+
+@enduml

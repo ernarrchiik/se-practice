@@ -122,7 +122,9 @@ what it does in one line; write "none" for an activity diagram>
 
 | # | Element | Problem | Rule or story | Fix |
 | --- | --- | --- | --- | --- |
-| 1 | <element> | <problem> | <rule or story> | <fix> |
+| 1 |Decision branch labels |The branches use (yes) and (no), but the lab requires ([yes]) and ([no]). |README §4 — activity guard conventions. |Added square brackets to every branch label. |
+| 2 |R2 overlap decision | The wording does not explicitly say that the requested time slot is compared with existing active bookings. The treatment of touching intervals is not stated. |R2 and assumption A2 in §4.3. |Clarified the decision and added a note with the overlap condition and the assumption that touching bookings are allowed. |
+
 
 ---
 
