@@ -1,0 +1,62 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Student {
+    - studentId : String
+}
+
+class Room {
+    - roomId : String
+    - isBlocked : Boolean
+    + isAvailable(startTime : DateTime, endTime : DateTime) : Boolean
+    + block() : void
+    + unblock() : void
+}
+
+class Booking {
+    - bookingId : String
+    - startTime : DateTime
+    - endTime : DateTime
+    - status : BookingStatus
+    + cancel() : void
+    + confirmationDetails() : String
+}
+
+enum BookingStatus {
+    ACTIVE
+    CANCELLED
+}
+
+Student "1" -- "0..*" Booking : makes
+Room "1" -- "0..*" Booking : reserved for
+
+note right of Booking
+    R1: startTime must be in the future.
+    0 < endTime - startTime <= 2 hours.
+
+    R2: ACTIVE bookings for the same Room
+    must not overlap.
+
+    Assumption: touching bookings are allowed.
+    Overlap exists when:
+    startA < endB and startB < endA.
+
+    US-03: only the owning Student
+    may cancel a Booking.
+
+    R4: a successful booking
+    produces confirmation.
+end note
+
+note right of Room
+    R3: a blocked Room cannot
+    accept a new Booking.
+
+    Assumption: blocking a Room
+    preserves existing bookings.
+
+    US-05: usage can be derived from
+    associated bookings for a selected period.
+end note
+
+@enduml

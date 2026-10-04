@@ -84,24 +84,32 @@ One row per association in your **revised** class diagram.
 
 | Association | Read left → right | Read right → left | Multiplicities |
 | --- | --- | --- | --- |
-| <Student — Booking> | <one student makes 0..* bookings> | <each booking belongs to exactly 1 student> | <1 / 0..*> |
-| <Room — Booking> | <...> | <...> | <...> |
+|Student — Booking |One student makes zero or many bookings. |Each booking belongs to exactly one student. |1 / 0..* |
+|Room — Booking |One room has zero or many bookings.|Each booking reserves exactly one room. |1 / 0..*|
 
 ### 4.2 Constraints the multiplicities cannot show
 
-- R2: <how your diagram states it — which note, on which class>
-- <any other rule that is not visible in multiplicities>
+- R2: A note on Booking states that ACTIVE bookings for the same room must not overlap. The overlap condition is startA < endB and startB < endA.
+- R1: A note on Booking requires a future start and a duration greater than zero and at most two hours.
+- R3: A note on Room states that a blocked room cannot accept a new booking.
+- R4: A note on Booking states that a successful booking produces confirmation.
+- US-03: A note on Booking states that only the owning student may cancel it.
 
 ### 4.3 Assumptions
 
-- A1: <an assumption you had to make — e.g. what happens to existing bookings when a room is blocked>
-- <A2 ...>
+- A1: Blocking a room preserves existing bookings. It prevents new bookings only.
+- A2: Touching bookings are allowed. For example, 10:00–12:00 and 12:00–13:00 do not overlap.
+- A3: Cancelled bookings are retained for usage review but do not prevent new bookings.
+- A4: Confirmation is an output of successful booking, not a separately stored domain object.
 
 ### 4.4 Findings
 
 | # | Element | Problem | Rule or story | Fix |
 | --- | --- | --- | --- | --- |
-| 1 | <element> | <problem> | <rule or story> | <fix> |
+| 1 | Booking | R2 appears in the AI explanation but is missing from the diagram. Multiplicities cannot express non-overlap. | R2 and README §4 require a note on Booking. | Added a note stating the non-overlap rule and the overlap condition. |
+| 2 | Administrator — Room | The association requires every room to have exactly one administrator. The scenario does not define this restriction. | The scenario and US-06 allow administrators to block or unblock rooms without assigning one administrator per room. | Removed the association and Administrator class. Kept block and unblock operations on Room. |
+| 3 | Booking.status : BookingStatus | The type is named, but its possible values are not defined. It is unclear which bookings count as active. | R2 applies to active bookings; US-03 requires cancellation. | Added BookingStatus with ACTIVE and CANCELLED values. |
+| 4 | BookingConfirmation | A separate confirmation object introduces storage and identity choices that the requirements do not specify. This is a simplification, not a prohibited class. | R4 and US-04 require confirmation after success, but do not require storing it separately. | Removed the class and kept confirmationDetails on Booking with an R4 note. |
 
 ---
 
