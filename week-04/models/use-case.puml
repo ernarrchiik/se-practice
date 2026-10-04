@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Student
+actor Administrator
+
+rectangle "Smart Campus Study Room Booking System" {
+    usecase "View availability" as UC1
+    usecase "Book room" as UC2
+    usecase "Cancel booking" as UC3
+    usecase "Send confirmation" as UC4
+    usecase "Review usage" as UC5
+    usecase "Block or unblock room" as UC6
+
+    ' why: R4 and US-04 require confirmation after every successful booking.
+    UC2 ..> UC4 : <<include>>
+}
+
+Student --> UC1
+Student --> UC2
+Student --> UC3
+
+Administrator --> UC5
+Administrator --> UC6
+
+note bottom of UC3
+    Students can cancel only their own bookings.
+    Source: scenario and US-03.
+end note
+
+note bottom of UC4
+    Confirmation is produced only after
+    a successful booking (R4, US-04).
+end note
+
+@enduml
