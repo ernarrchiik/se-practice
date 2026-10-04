@@ -18,6 +18,7 @@ class Room {
   + checkAvailability() : boolean
   + block() : void
   + unblock() : void
+  + bookingsForPeriod(startTime : DateTime, endTime : DateTime) : List<Booking>
 }
 
 class Booking {

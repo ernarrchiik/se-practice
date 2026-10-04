@@ -10,51 +10,52 @@
 
 | Field | Value |
 | --- | --- |
-| Name | <your name> |
-| Group | <your group> |
-| AI assistant | <e.g. Claude, ChatGPT, Gemini, DeepSeek, Grok> |
-| Exact model | <the exact model name with its version, e.g. claude-sonnet-4-5> |
-| Renderer | <PlantUML web server / VS Code extension / IntelliJ plugin / local jar> |
-| Behaviour diagram | <sequence / activity / both> |
-| Stories used | <my week-03 stories, revised / the reference set from README §3> |
+| Name | Yernar |
+| Group | Monday 16:00-19:00 |
+| AI assistant | Gemini |
+| Exact model | 3.5 Flash-lite |
+| Renderer | PlantUML web server |
+| Behaviour diagram | activity |
+| Stories used | My revised Week 03 stories, with US-04 and the rule reference in US-06 corrected for Week 04. |
 
 ---
 
 ## 2. Prompts as sent
 
-Paste every prompt **exactly as you sent it**, in the order you sent it, one code block each. The
-AI's first replies are saved as files in `models/original/` — do not paste them here.
+Before Task 1, I supplied the Smart Campus scenario, rules R1–R4 and my approved stories, followed by:
+
+```text
+This is the Smart Campus scenario, its rules R1-R4 and my approved user stories. I will ask you for several UML diagrams in PlantUML. Use only this scenario. Wait for my first request.
+```
 
 ### 2.1 Task 1 — use-case prompt
 
 ```text
-Understood! I have reviewed the Smart Campus study room booking scenario, rules R1–R4, the approved user stories US-01 through US-06, and the out-of-scope items.
-
-I am ready. What is your first request?
+Using the supplied scenario and approved stories, generate PlantUML for a use-case diagram. Include Student and Administrator outside a named system boundary. Model their goals, show justified associations, and list assumptions. Use include or extend only with a clear reason.
 ```
 
 ### 2.2 Task 2 — class prompt
 
 ```text
-<paste>
+Create a UML domain class diagram in PlantUML for Smart Campus. Start with Student, Room, and Booking. Add attributes, appropriate operations, and association multiplicities. Add other classes only when requirements justify them. Explain each relationship and list assumptions. Avoid unjustified inheritance or composition.
 ```
 
-### 2.3 Task 3 — behaviour prompt (3A sequence or 3B activity)
+### 2.3 Task 3 — behaviour prompt (3B activity)
 
 ```text
-<paste>
+Generate a UML activity diagram in PlantUML for Book room. Show the initial node, actions, guarded decisions, and final nodes. Check the time range, blocked-room status, and overlapping bookings. Show confirmation after success and rejection after failure. Use branches rather than parallel paths unless concurrency is required.
 ```
 
 ### 2.4 Focused correction prompts (if you sent any)
 
-```text
-<paste, or write "none">
-```
+none
 
 ### 2.5 Critique prompt
 
+In a new chat, I supplied models/approved-stories.md and the revised use-case, class and activity diagrams, followed by:
+
 ```text
-<paste>
+Compare my diagrams with the requirements. Identify missing rules, inconsistent names, and unjustified elements. Cite each issue and propose a specific correction.
 ```
 
 ---
@@ -150,11 +151,16 @@ diagram**, spelled exactly as in the diagram, with the story ID it traces to.
 
 | Requirement / story | Use case | Classes | Behaviour element |
 | --- | --- | --- | --- |
-| R1 | <use case> | <classes and attributes> | <message, guard or decision> |
-| R2 | <use case> | <classes, note> | <message, guard or decision> |
-| R3 | <use case> | <classes and attributes> | <message, guard or decision> |
-| R4 | <use case> | <classes> | <message or action> |
-| <US-01> | <Book room> | <Student, Booking, Room> | <message or action> |
+| R1 | Book room | Booking.startTime, Booking.endTime; R1 note on Booking. | Valid time range? (R1): future start and duration greater than zero and at most two hours. |
+| R2 | Book room | Room — Booking association; Booking.status; R2 note on Booking. | Requested slot overlaps an ACTIVE booking for this room? (R2). |
+| R3 | Book room; Block or unblock room | Room.isBlocked, block(), unblock(); R3 note on Room. | Room blocked? (R3); rejection when blocked. |
+| R4 | Book room; Send confirmation | Booking.confirmationDetails(); R4 note on Booking. | Send confirmation to Student (R4), after creation. |
+| US-01 | View availability | Room.isAvailable(startTime, endTime); Room.isBlocked; associated bookings. | Availability browsing is outside the Book room activity. The activity checks availability for the selected room and slot. |
+| US-02 | Book room | Student, Room, Booking; their associations and booking constraints. | Student selects room and time slot; three validation decisions; Create and save ACTIVE Booking. |
+| US-03 | Cancel booking | Booking.cancel(), Booking.status; Student — Booking association and ownership note. | Cancellation is outside the Book room activity. Its overlap check considers only ACTIVE bookings. |
+| US-04 | Send confirmation | Booking.confirmationDetails(); R4 note on Booking. | Send confirmation to Student (R4). |
+| US-05 | Review usage | Room.bookingsForPeriod(startTime, endTime); Room — Booking association. | Usage review is outside the Book room activity. |
+| US-06 | Block or unblock room | Room.isBlocked, block(), unblock(). | Administrative blocking and unblocking are outside this activity. Room blocked? (R3) checks the resulting state. |
 
 ---
 
@@ -165,9 +171,14 @@ behaviour diagram). "Before" is what the AI produced; "After" is what you submit
 
 | # | Diagram | Before (AI's original) | After (your revision) | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | <use case> | <before> | <after> | <rule, story or notation reason> |
-| 2 | <class> | <before> | <after> | <reason> |
-| 3 | <sequence / activity> | <before> | <after> | <reason> |
+| 1 | Use case | UC1 was declared twice with different labels. | Kept one View availability declaration. | Both declarations represented the same US-01 goal. |
+| 2 | Use case | The include justification used an ordinary comment. | Added a ' why: comment directly above the include relationship. | Required PlantUML convention in README §4; R4 and US-04 justify the include. |
+| 3 | Class | R2 appeared only in the AI explanation. | Added an R2 note on Booking with the overlap condition and touching-interval assumption. | Multiplicities cannot express non-overlap; README §4 requires the note. |
+| 4 | Class | Administrator — Room required exactly one administrator per room. | Removed Administrator and its association; retained block and unblock operations on Room. | The scenario and US-06 do not require a fixed administrator assignment. |
+| 5 | Class | BookingStatus was used without defining its values. | Added ACTIVE and CANCELLED enum values. | Makes active bookings under R2 and cancellation under US-03 explicit. |
+| 6 | Class | Usage review had no explicit query operation. | Added bookingsForPeriod(startTime, endTime) to Room after evaluating the AI critique. | Clarifies support for the selected period in US-05. |
+| 7 | Activity | Branch labels used (yes) and (no). | Changed every branch label to ([yes]) or ([no]). | Required activity guard convention in README §4. |
+| 8 | Activity | The overlap decision did not explicitly identify the requested interval or define touching intervals. | Clarified the decision and added the overlap condition and touching-interval assumption. | Makes R2 and assumption A2 explicit. |
 
 ---
 
@@ -177,17 +188,54 @@ Paste the complete output of `python tests/check_models.py`, then explain **ever
 keeping**. The same IDs go in `submission.yml` under `checker.kept_fails`. A FAIL you report and explain costs you nothing. One you hide costs the whole criterion.
 
 ```text
-<paste the full output>
+Week 04 structural check - shape only, never quality
+
+UC1  PASS  Student and Administrator declared
+UC2  PASS  named system boundary: "Smart Campus Study Room Booking System"
+UC3  PASS  all actors declared outside the boundary
+UC4  PASS  all scenario goals present (6 use cases)
+UC5  PASS  no actor is associated with a confirmation use case
+UC6  PASS  actor responsibilities match the scenario
+UC7  PASS  use cases are goals, not screens or components
+UC8  PASS  every include / extend / generalization carries a ' why: comment (or there are none)
+UC9  PASS  revised diagram differs from the AI's original
+CL1  PASS  Student, Room and Booking present
+CL2  PASS  Booking is associated with Student and with Room
+CL3  PASS  every association has multiplicities at both ends
+CL4  PASS  1 student / 1 room per booking, 0..* bookings per student and per room
+CL5  PASS  every inheritance / composition / aggregation carries a ' why: comment (or there are none)
+CL6  PASS  only domain concepts in the class diagram
+CL7  PASS  attributes needed by R1-R3 are present
+CL8  PASS  a note states R2 (no overlapping active bookings)
+AC1  PASS  initial and final nodes present
+AC2  PASS  separate decisions check R1, R3 and R2 (3 decisions)
+AC3  PASS  every branch has a labelled guard
+AC4  PASS  no parallel paths
+AC5  PASS  confirmation on success, rejection on failure
+AC6  PASS  creation comes after all rule checks
+FI1  PASS  the AI's original output is kept for every diagram
+FI2  PASS  a rendered image for every diagram
+LR1  PASS  §1 setup filled (tool and model recorded)
+LR2  PASS  5 prompts pasted in §2
+LR3  PASS  3 use-case findings in §3
+LR4  PASS  §4 relationships read both ways, 4 assumption(s) declared
+LR5  PASS  2 behaviour-diagram findings in §5
+LR6  PASS  5 critique issues with a verdict
+LR7  PASS  8 change-log rows covering all three diagrams
+CS1  PASS  6 approved stories
+CS2  PASS  §7 traces R1-R4 into the diagrams
+CS3  PASS  every use case traces to an approved story
+
+SUMMARY pass=35 fail=0 error=0
+A FAIL you report and explain in lab-report.md §9 costs you nothing. One you hide costs the criterion.
 ```
 
-**FAILs I am keeping, and why:** <one line per check ID, or "none">
+**FAILs I am keeping, and why:** * none
 
 ---
 
 ## 10. Conclusion (120–180 words)
 
-<Which diagram did the AI get most wrong, and what exactly was wrong? Which error would have
-reached the code if nobody had reviewed it? What did the critique find that you missed — and what
-did it claim that was false? Be specific: "the AI got the multiplicities wrong" is worth nothing;
-"the AI put 1..* on the Booking end, which says every room must already have a booking" is worth
-everything.>
+The class diagram needed the most review. The original Administrator–Room association said that each room had exactly one administrator, although the scenario does not require this assignment. It also omitted the required R2 note on Booking and used BookingStatus without defining its values. Without review, the administrator multiplicity could have become an unnecessary database restriction, while the missing overlap constraint could have been overlooked during implementation.
+The use-case diagram declared UC1 twice and did not use the required justification-comment format. The activity diagram already checked R1, R3 and R2 before saving, but its branch labels needed the required notation.
+The critique identified that usage review had only a note, so I added a period-based query to Room. I rejected its claim that every actor needs a domain class and its suggestion to replace separate activity checks with one availability call. Separate decisions preserve the rejection reason and meet the lab requirements.

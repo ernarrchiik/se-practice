@@ -1,8 +1,9 @@
 # Approved stories — Smart Campus study room booking
 
-**Source of this set:** <My revised Week 03 stories, with US-04
+**Source of this set:** 
+My revised Week 03 stories, with US-04
 and the rule reference in US-06 corrected for Week 04.
-Original story IDs are preserved.>
+Original story IDs are preserved.
 
 ## Scenario (from the Lesson 04 practice deck, slide 7)
 
