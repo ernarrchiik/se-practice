@@ -23,5 +23,5 @@ live in `report.md`, section 11 — this file is the summary, not a second copy.
 **Anything I accepted from the AI without fully understanding it:**
 <!-- Name the section or the diagram element. "Nothing" is a valid answer only if it is true. --> All of the sequence and classes codes
 
-Signed: Barakhan Akniyet
+Signed: Berenbay Yernar
 Date: 2026-10-18

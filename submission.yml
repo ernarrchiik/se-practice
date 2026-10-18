@@ -14,10 +14,10 @@ schema: 1
 assignment: "sis-02"            # do not edit
 
 student:
-  name: Barakhan Akniyet
-  student_id: 24B031687
+  name: Berenbay Yernar
+  student_id: 24B031709
   group: Monday 16:00-19:00
-  github: AknietBarakhan
+  github: ernarrchiik
 
 assistant:
   tool: Claude Free
