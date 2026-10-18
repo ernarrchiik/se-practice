@@ -1,0 +1,45 @@
+@startuml
+title Course Registration - Domain Model
+
+class Student {
+  studentId
+  name
+}
+
+class Course {
+  code
+  title
+}
+
+class CourseOffering {
+  sectionLabel
+  semester
+  capacity : positive integer
+  /enrollmentCount
+  /availablePlaces
+}
+
+class Enrollment {
+  enrolledAt
+}
+
+Course "1" -- "0..*" CourseOffering : is scheduled as >
+Student "1" -- "0..*" Enrollment : makes >
+CourseOffering "1" -- "0..*" Enrollment : receives >
+
+note bottom of CourseOffering
+  Constraints
+  C1 (R2): capacity is a positive whole number.
+  C2 (R2): enrollmentCount <= capacity at all times.
+  Derived: enrollmentCount = number of linked Enrollments;
+  availablePlaces = capacity - enrollmentCount.
+end note
+
+note bottom of Enrollment
+  Constraint
+  C3 (R3): at most one Enrollment per
+  (Student, CourseOffering) pair.
+  Each Enrollment links exactly one
+  Student and one CourseOffering (R4).
+end note
+@enduml

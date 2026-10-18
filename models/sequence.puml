@@ -1,0 +1,52 @@
+@startuml
+title Course Registration - Catalog, Success, Course Full, Already Enrolled
+
+actor Student
+participant "Catalog Screen" as UI <<boundary>>
+participant "Registration Service" as SVC <<technical>>
+database "Registration Store" as DB <<technical>>
+
+== Browse catalog (US-01, R1: AC-01) ==
+Student -> UI : open catalog for chosen semester
+UI -> SVC : getCatalog(semester)
+SVC -> DB : findOfferings(semester)
+DB --> SVC : offerings for that semester only
+SVC --> UI : course code, title, offering, available places
+UI --> Student : display catalog
+
+== Request registration (US-02, US-03) ==
+Student -> UI : select offering and request registration
+UI -> SVC : register(studentId, offeringId)
+note right of SVC
+  Places figure shown earlier in the
+  catalog is NOT reused (R1, R2: AC-02).
+end note
+
+group ATOMIC OPERATION (R2, R3, R4, R5)
+  note over SVC, DB
+    The checks and the creation below run as one
+    atomic step; on any failure nothing is changed.
+    The first failing check decides the outcome.
+  end note
+
+  SVC -> DB : findEnrollment(studentId, offeringId)
+  DB --> SVC : existing enrollment or none
+
+  alt [already enrolled] (R3, R5: AC-06)
+    SVC --> UI : reject "already enrolled"
+    UI --> Student : "already enrolled"
+  else [not yet enrolled]
+    SVC -> DB : countEnrollments(offeringId)
+    DB --> SVC : enrollment count and capacity
+    alt [course full] (R2, R5: AC-05)
+      SVC --> UI : reject "course full"
+      UI --> Student : "course full"
+    else [place available] (R2, R3, R4: AC-03, AC-04)
+      SVC -> DB : createEnrollment(studentId, offeringId)
+      DB --> SVC : enrollment stored
+      SVC --> UI : confirmation
+      UI --> Student : registration confirmed
+    end
+  end
+end
+@enduml
