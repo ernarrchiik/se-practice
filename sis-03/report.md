@@ -225,62 +225,156 @@
 
 ### B1
 
-- **Tool:** (write here)
-- **Model:** (write here)
-- **Date:** (write here)
-- **Stage:** (write here)
-- **Source:** (write here)
+- **Tool:** ChatGPT
+- **Model:** GPT-6.1 Sol
+- **Date:** 2026-10-31
+- **Stage:** Plan
+- **Source:** this SIS
 
 **Prompt:**
 
 ~~~~text
-(paste here)
+Plan a Python function with this exact signature:
+can_book(start, end, now, blocked, existing).
+Do not write code yet. Give a short plan covering checks,
+assumptions and boundary tests.
+Rules:
+- start and end must be integer minutes: 0 <= start < end <= 1440.
+- start must be strictly later than now.
+- Maximum duration is 120 minutes; exactly 120 is allowed.
+- A blocked room is always unavailable.
+- Reject overlap with any existing (start, end) pair.
+- Touching endpoints do not overlap.
+- Return True only when every rule holds; otherwise False.
+- Never change existing bookings.
+- Use only the Python standard library.
+Assume now is valid, from 0 to 1439.
+Do not add booking creation or any extra features.
+
 ~~~~
 
 **Response:**
 
 ~~~~text
-(paste here)
+The function will check each rule and return False as soon as one fails:
+1. Verify that start and end are integers. Reject Boolean values, which Python otherwise treats as integers.
+2. Check 0 <= start < end <= 1440.
+3. Check that start > now.
+4. Reject durations greater than 120 minutes.
+5. Reject the request if blocked is True.
+6. Read each existing booking without modifying it. Overlap occurs when start < existing_end and end > existing_start. Strict comparisons allow touching endpoints.
+7. Return True if every check passes.
+Assumptions: now is valid, blocked is Boolean, and existing contains valid integer-minute booking pairs for the same day. Existing bookings may be unsorted.
+Boundary tests will cover:
+- Touching endpoints in both directions and overlapping intervals.
+- Exactly 120 minutes versus 121 minutes.
+- Starting exactly now versus one minute later.
+- Equal or reversed times, negative times, non-integers and Booleans.
+- Ending at 1440 versus 1441.
+- Blocked rooms, empty bookings and conflicts with a second booking.
+- Repeated calls and unchanged input contents and ordering.
+No imports or additional features are needed.
 ~~~~
 
 ### B2
 
-- **Tool:** (write here)
-- **Model:** (write here)
-- **Date:** (write here)
-- **Stage:** (write here)
-- **Source:** (write here)
+- **Tool:** ChatGPT
+- **Model:** not displayed
+- **Date:** 2026-10-31
+- **Stage:** Generate
+- **Source:** this SIS
 
 **Prompt:**
 
 ~~~~text
-(paste here)
+I approve the plan. Generate the first implementation of
+can_book(start, end, now, blocked, existing) exactly as planned.
+Use only the Python standard library. Provide the complete
+booking_v1.py code without tests or additional features.
 ~~~~
 
 **Response:**
 
 ~~~~text
-(paste here)
+def can_book(start, end, now, blocked, existing):
+    if type(start) is not int or type(end) is not int:
+        return False
+
+    if not (0 <= start < end <= 1440):
+        return False
+
+    if start <= now:
+        return False
+
+    if end - start > 120:
+        return False
+
+    if blocked:
+        return False
+
+    for existing_start, existing_end in existing:
+        if start < existing_end and end > existing_start:
+            return False
+
+    return True
 ~~~~
 
 ### B3
 
-- **Tool:** (write here)
-- **Model:** (write here)
-- **Date:** (write here)
-- **Stage:** (write here)
-- **Source:** (write here)
+- **Tool:** Bolt.new
+- **Model:** Standard
+- **Date:** 2026-11-01
+- **Stage:** Generate
+- **Source:** this SIS
 
 **Prompt:**
 
 ~~~~text
-(paste here)
+Build a responsive one-page Smart Campus Room Availability Checker
+for one selected room, using fictional booking data.
+The page checks availability only. It must not create or confirm bookings.
+Implement these fixed acceptance criteria:
+AC1: Candidate times are integer minutes after midnight:
+0 <= start < end <= 1440. Start must be strictly later than now.
+AC2: Maximum duration is 120 minutes. Exactly 120 is allowed.
+AC3: Every request is unavailable when the room is blocked.
+AC4: Reject overlap with any existing booking. Touching endpoints
+do not overlap. Intervals include their start and exclude their end.
+AC5: Display Available or Unavailable clearly. Never modify existing
+bookings when checking, including when checking twice.
+AC6: Show understandable validation feedback and provide a usable
+mobile layout at approximately 375 pixels wide.
+Use default fictional data:
+now = 540 (09:00)
+blocked = false
+existing = [(600, 660)] (10:00–11:00)
+Provide labelled start and end inputs and a Check availability button.
+Allow changing the fictional current time, blocked status and existing
+intervals so I can test the acceptance criteria. These controls only
+edit the local demonstration data; they do not create real bookings.
+Explicitly exclude login, backend and database.
+Do not add authentication, network calls, external APIs, storage,
+analytics, payments or a Book button. Keep everything in local memory.
+Use system fonts and no externally hosted assets.
 ~~~~
 
 **Response:**
 
 ~~~~text
-(paste here)
+I'll build a self-contained room availability checker that runs entirely in local memory (no backend, auth, or database — matching your explicit constraints). Let me start by creating the time/availability logic, then the UI.
+
+
+0123456789
+actions taken
+Build passes. Here's what I built.
+
+A single-page room availability checker for one selected campus room, running entirely in local memory — no login, backend, database, network calls, or Book button. Everything uses fictional data you can edit to test each criterion.
+
+The check itself enforces every acceptance criterion: integer minutes with 0 ≤ start < end ≤ 1440 and start strictly later than now (AC1), a 120-minute max where exactly 120 is allowed (AC2), always-unavailable when blocked (AC3), overlap rejection using half-open (start, end) intervals where touching endpoints don't overlap (AC4), a clear Available/Unavailable verdict that never mutates existing bookings even on repeated checks (AC5), and readable validation messages with a layout that works at ~375px wide (AC6).
+
+Defaults are preloaded: now = 540 (09:00), blocked = false, one existing booking 600–660 (10:00–11:00). Below the checker you'll find controls to change the fictional current time, toggle the blocked status, and add or remove existing intervals — these edit local demo data only, not real bookings. A day timeline visualizes bookings, the current-time marker, and the interval you just checked.
+
+You can try it now: enter Start 555 / End 600 and tap "Check availability" to see an Available result, or Start 630 / End 700 to see an Unavailable overlap result.
 ~~~~
 
 ### B4
