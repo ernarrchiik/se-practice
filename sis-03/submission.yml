@@ -1,0 +1,49 @@
+schema: 1
+assignment: "sis-03"
+
+student:
+  name: "Berenbay Yernar"
+  student_id: "24B031709"
+  group: "Mon 16-19"
+  github: "ernarrchiik"
+
+assistant:
+  tool: "ChatGPT"
+  model: "GPT-6.1 Sol"
+
+bolt:
+  model: "not displayed"
+  project_url: "https://bolt.new/~/sb1-bz1yqymx"
+
+language:
+  name: "python"
+  path: "A"
+
+reuse:
+  python_v1: "fresh"
+  web_v1: "fresh"
+
+checker:
+  pass: 51
+  fail: 3
+  error: 1
+  commit: "1a71774"
+
+counts:
+  tests: 25
+  exchanges: 5
+  issues: 3
+  critique_decisions: 3
+  reflection_words: 46
+
+cases:
+  python_final_matches: 11
+  page_final_matches: 0
+
+known_fails: [C1, C4, E3, Q1]
+
+honesty:
+  v1_unedited: yes
+  screenshots_unedited: yes
+  results_observed: no
+  ai_usage_disclosed: yes
