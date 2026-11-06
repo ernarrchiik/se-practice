@@ -1,0 +1,62 @@
+
+ RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-07/app
+
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T01: AC4 allows touching after an existing booking 1ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T02: AC1 rejects a start equal to now 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T03: AC1 rejects zero duration 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T04: AC1 rejects a reversed interval 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T05: AC1 rejects an end past 1440 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T06: AC2 allows exactly 120 minutes 3ms
+   → expected false to be true // Object.is equality
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T07: AC2 rejects 121 minutes 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T08: AC4 allows touching before an existing booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T09: AC4 rejects partial overlap 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T10: AC4 rejects a request containing an existing booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T11: AC4 rejects a request inside an existing booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T12: AC4 rejects an identical interval 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T13: AC3 rejects an otherwise valid request when blocked 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T14: AC4 allows a valid request with no existing bookings 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X1: AC1 allows an end exactly at 1440 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X2: AC4 allows touching both neighbouring bookings 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B01: AC1 rejects a negative start 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B02: AC1 rejects a start before now 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B03: AC1 allows a start one minute after now 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B04: AC1 allows start zero with an earlier supplied now 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B05: AC4 rejects overlap in the second unsorted booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B06: AC2 allows 119 minutes 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B07: AC1 allows a one-minute duration 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B08: AC4 rejects overlap with the first minute of a booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B09: AC4 rejects overlap with the last minute of a booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B10: AC4 allows a request separated before a booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B11: AC4 allows a request separated after a booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B12: AC3 rejects a blocked room with no existing bookings 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B13: AC1 respects a different supplied current time 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > AC5: repeated available checks preserve unsorted booking data 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T06: AC2 allows exactly 120 minutes
+AssertionError: expected false to be true // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+ ❯ src/booking.test.ts:71:43
+     69|     const request = fixture({ start: 720, end: 840 });
+     70| 
+     71|     expect(checkWithoutMutation(request)).toBe(true);
+       |                                           ^
+     72|   });
+     73| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 29 passed (30)
+   Start at  21:31:19
+   Duration  278ms (transform 28ms, setup 0ms, collect 22ms, tests 7ms, environment 0ms, prepare 56ms)
+
