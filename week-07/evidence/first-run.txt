@@ -1,0 +1,31 @@
+
+ RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-07/app
+
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T01': 'AC4 touching after' => true 1ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T02': 'AC1 starts now' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T03': 'AC1 zero duration' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T04': 'AC1 reversed' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T05': 'AC1 past day end' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T06': 'AC2 exactly 120 minutes' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T07': 'AC2 exceeds 120 minutes' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T08': 'AC4 touching before' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T09': 'AC4 partial overlap' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T10': 'AC4 contains booking' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T11': 'AC4 inside booking' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T12': 'AC4 identical interval' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T13': 'AC3 blocked room' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'T14': 'AC4 no bookings' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'X1': 'AC1 ends exactly at 1440' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'X2': 'AC4 touches both neighbours' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'B01': 'AC1 negative start' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'B02': 'AC1 starts before now' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'B03': 'AC1 starts one minute after now' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'B04': 'AC1 lower bound zero with earlier sup…' => true 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > 'B05': 'AC4 overlap in second unsorted booking' => false 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > AC5: repeated available checks leave unsorted booking data unchanged 0ms
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  21:18:41
+   Duration  330ms (transform 30ms, setup 0ms, collect 22ms, tests 3ms, environment 0ms, prepare 51ms)
+
