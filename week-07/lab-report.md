@@ -78,17 +78,204 @@ five columns.
 `Vitest`, followed by the case table from section 3:
 
 ```text
-(paste here)
+Generate tests for the existing booking function using Vitest. Use AC1–AC6 and the reviewed case table below.
+
+Import the real function used by the page. Keep its code unchanged. Use fixed time and fresh fixtures. Assert exact decisions and unchanged booking data.
+
+Return the test file, run command, and AC mapping. Flag unclear requirements. We will run the tests ourselves.
+
+Assistant clarification before generation:
+Please paste or attach:
+
+The existing booking function and its file path.
+The page’s import and call to that function, so the tests target the real implementation.
+The reviewed case table—it wasn’t included in your message.
+The exact AC1–AC6 text, if revised.
+The workspace contains no project files, so I can’t verify the import, function signature, or exact return values yet.
+
+I’ll return the Vitest test file, run command, and AC mapping, using fixed time and fresh fixtures, with assertions for exact decisions and unchanged booking data. I’ll keep the function unchanged and leave test execution to you.
+
+One scope issue to clarify: if AC5–AC6 include visible feedback and mobile layout, function tests alone cannot verify those UI requirements.
+Follow-up message supplying the missing materials:
+Here are the missing materials for the previous request.
+The function is in week-07/app/src/booking.ts.
+Save the generated test as week-07/app/src/booking.test.ts
+and import canBook from './booking'.
+type Interval = {
+    start: number;
+    end: number;
+  };
+  
+  type BookingRequest = {
+    start: number;
+    end: number;
+    now: number;
+    blocked: boolean;
+    bookings: Interval[];
+  };
+  
+  export function canBook({
+    start,
+    end,
+    now,
+    blocked,
+    bookings,
+  }: BookingRequest): boolean {
+    let ok = true;
+  
+    if (!(0 <= start && start < end && end <= 1440)) ok = false;
+    else if (!(start > now)) ok = false;
+    else if (end - start > 120) ok = false;
+    else if (blocked) ok = false;
+    else {
+      for (const b of bookings) {
+        if (start < b.end && end > b.start) {
+          ok = false;
+          break;
+        }
+      }
+    }
+  
+    return ok;
+  }
+import { useState } from 'react';
+import { canBook } from './booking';
+// Starter for students with no Week 06 project. The availability decision lives INSIDE this
+// component on purpose: Task 1 of Practice #07 is to extract it into src/booking.ts as
+// canBook({ start, end, now, blocked, bookings }) without changing what the page does.
+
+type Interval = { start: number; end: number };
+type Room = { id: string; name: string; blocked: boolean; bookings: Interval[] };
+
+const ROOMS: Room[] = [
+  { id: 'a101', name: 'Room A-101', blocked: false, bookings: [{ start: 600, end: 660 }] },
+  { id: 'b204', name: 'Room B-204', blocked: false, bookings: [] },
+];
+
+const toMinutes = (value: string) => {
+  const [h, m] = value.split(':').map(Number);
+  return h * 60 + m;
+};
+const fmt = (m: number) => ${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')};
+
+export default function App() {
+  const [roomId, setRoomId] = useState('a101');
+  const [now, setNow] = useState('09:00');
+  const [blocked, setBlocked] = useState(false);
+  const [start, setStart] = useState('11:00');
+  const [end, setEnd] = useState('12:00');
+  const [endOfDay, setEndOfDay] = useState(false);
+  const [result, setResult] = useState<boolean | null>(null);
+  const [error, setError] = useState('');
+
+  const room = ROOMS.find(r => r.id === roomId)!;
+
+  function check() {
+    setResult(null);
+    if (!start || !now || (!end && !endOfDay)) {
+      setError('Fill in the current time, the start and the end.');
+      return;
+    }
+    const s = toMinutes(start);
+    const e = endOfDay ? 1440 : toMinutes(end);
+    const n = toMinutes(now);
+    if (!(s < e)) {
+      setError('The end time must be after the start time.');
+    } else {
+      setError('');
+    }
+
+    const ok = canBook({
+      start: s,
+      end: e,
+      now: n,
+      blocked,
+      bookings: room.bookings,
+    });
+    
+    setResult(ok);
+  }
+
+  return (
+    <main className="page">
+      <h1>Smart Campus Room Availability</h1>
+      <div className="row">
+        <label>Room
+          <select value={roomId} onChange={e => setRoomId(e.target.value)}>
+            {ROOMS.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+          </select>
+        </label>
+        <label>Current time<input type="time" value={now} onChange={e => setNow(e.target.value)} /></label>
+        <label>Start<input type="time" value={start} onChange={e => setStart(e.target.value)} /></label>
+        <label>End<input type="time" value={end} disabled={endOfDay} onChange={e => setEnd(e.target.value)} /></label>
+        <label className="inline"><input type="checkbox" checked={endOfDay} onChange={e => setEndOfDay(e.target.checked)} /> Ends at 24:00</label>
+        <label className="inline"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /> Room blocked</label>
+      </div>
+      <button onClick={check}>Check availability</button>
+      {error && <p className="error">{error}</p>}
+      {result !== null && (
+        <p className={result ${result ? 'available' : 'unavailable'}}>{result ? 'Available' : 'Unavailable'}</p>
+      )}
+      <h2>Existing bookings</h2>
+      <ul>{room.bookings.length ? room.bookings.map((b, i) => <li key={i}>{fmt(b.start)}–{fmt(b.end)}</li>) : <li>none</li>}</ul>
+    </main>
+  );
+}
+
+| ID | Candidate / changed input | Expected | AC | Reason (in your words) |
+| --- | --- | --- | --- | --- |
+| T01 | 660–720 (touching after) | true | AC4 |The request starts exactly when the existing booking ends, so there is no overlap |
+| T02 | 540–570 (starts now) | false | AC1 |The start equals the current time, but it must be strictly later |
+| T03 | 720–720 (zero duration) | false | AC1 |The start and end are equal, but the end must be later than the start |
+| T04 | 750–720 (reversed) | false | AC1 |The end is earlier than the start, so the interval is invalid |
+| T05 | 1380–1441 (past day end) | false | AC1 |	The end exceeds 1440, the last allowed minute of the day |
+| T06 | 720–840 (120 minutes) | true | AC2 |	The duration is exactly 120 minutes, which is allowed |
+| T07 | 720–841 (121 minutes) | false | AC2 |The duration is 121 minutes, exceeding the limit by one minute |
+| T08 | 570–600 (touching before) | true | AC4 |The request ends exactly when the existing booking starts, so there is no overlap |
+| T09 | 630–690 (partial overlap) | false | AC4 |The request overlaps the existing booking from 630 to 660 |
+| T10 | 570–690 (contains booking) | false | AC4 |The request includes the entire existing booking |
+| T11 | 615–645 (inside booking) | false | AC4 |The request falls entirely inside the existing booking |
+| T12 | 600–660 (identical interval) | false | AC4 |The request has the same start and end as the existing booking |
+| T13 | 660–720, blocked = true | false | AC3 |The room is blocked, so even an otherwise valid request must be rejected |
+| T14 | 630–690, bookings = [] | true | AC4 |There are no existing bookings to overlap, and the other booking rules are satisfied |
+| AC5 | an Available request — the bookings after the call equal the bookings before | true, data unchanged | AC5 |	Checking availability must not add, remove or modify existing bookings |
+| X1 |1380–1440 |true |AC1 |Ending exactly at 1440 is allowed, and this 60-minute request satisfies the other rules |
+| X2 |660–720; bookings = [{start:600,end:660},{start:720,end:780}] |true |AC4 |The request fits between two bookings, touching both without overlapping either |
+AC1: Accept a candidate interval only when 0 ≤ start < end ≤ 1440 and start is after the supplied current time.
+AC2: Reject a booking longer than 120 minutes.
+AC3: Reject the request when the selected room is blocked.
+AC4: Reject any interval that overlaps an existing booking; touching endpoints are allowed.
+AC5: Show a clear Available / Unavailable decision without changing the existing booking data.
+AC6: The page remains usable at desktop and narrow/mobile width and gives understandable validation feedback.
 ```
 
 **The assistant's answer: run command, AC mapping and any unclear requirements it flagged,
 pasted unedited.** Its test file goes to `suites/first/` and is not pasted here:
 
 ```text
-(paste here)
+Created booking.test.ts with **22 tests**. It imports the real named export `{ canBook }` from `'./booking'`, uses fixed supplied time and fresh fixtures, and checks exact booleans and unchanged booking data. The function was not modified. Tests were not run.
+
+Run from your repository root:
+cd week-07/app
+npx vitest run src/booking.test.ts --reporter=verbose
+
+| AC  | Coverage                                                                                  |
+| --- | ----------------------------------------------------------------------------------------- |
+| AC1 | T02–T05, X1, B01–B04: interval bounds, order and strict future start                      |
+| AC2 | T06–T07: exactly 120 and 121 minutes                                                      |
+| AC3 | T13: blocked room                                                                         |
+| AC4 | T01, T08–T12, T14, X2, B05: touching, overlaps, empty and multiple bookings               |
+| AC5 | Exact boolean and unchanged booking values/order in every case; repeated available checks |
+| AC6 | Requires page-level validation and layout checks                                          |
+
+Requirements to clarify:
+
+- **AC5 labels:** function tests verify booleans; rendering “Available / Unavailable” needs a page test.
+- **AC6:** understandable feedback and mobile usability need UI checks, including an agreed narrow width.
+- **Input domain:** integer-only minutes, invalid existing intervals, and bounds for `now` are unspecified. B01/B04 use negative `now` to isolate the start boundary under the literal supplied-time rule.
 ```
 
-The first suite was saved to `suites/first/` **before** I changed anything in it: yes / no
+The first suite was saved to `suites/first/` **before** I changed anything in it: yes 
 
 ---
 
