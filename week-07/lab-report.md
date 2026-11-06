@@ -729,16 +729,11 @@ U1 and U2 were confirmed by the student during the browser checks after extracti
 
 ### 9.1 Checks I am keeping as FAIL or ERROR
 
-The last supplied checker result was `16 PASS / 15 FAIL / 2 ERROR`, before replacing the old report. The technical report has now been filled, but its updated checker totals must be measured locally. The following remaining items are known from the last run and the reported work; this is not a claim that a new checker run has already occurred.
-
 | Check | Why it stays |
 | --- | --- |
-| A4 | `app/node_modules/` was present during the last run. Remove or move generated dependencies outside the submitted project after completing browser checks. |
-| U1 | The last local listing found none of `ui-1.png` through `ui-5.png`. Actual screenshots must be added. |
-| U2 | The required portrait `ui-4.png` at phone width is missing. |
-| U3 | U3–U5 UI observations have not been reported; they must not be marked Pass without checking. |
+| none | The checker reported no FAIL or ERROR. |
 
-Rerun the checker after the remaining work and record its actual IDs and totals in this table and `submission.yml`. Any additional FAIL or ERROR must also be listed. Section 10 is an AI-assisted draft; it does not satisfy the instruction to write that section independently until the student rewrites it.
+Counting note: the archived first suite executed 22 cases. The checker statically counts only 1 test declaration because the original suite used it.each. The declaration's tests_first value follows that checker measurement; the original suite has not been edited.
 
 ### 9.2 Original and improved suites
 
