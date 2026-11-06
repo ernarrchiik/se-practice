@@ -49,9 +49,9 @@ for every test. **The Expected column comes from AC1–AC4, never from the code.
 
 | ID | Candidate / changed input | Expected | AC | Reason (in your words) |
 | --- | --- | --- | --- | --- |
-| T01 | 660–720 (touching after) | true | AC4 | |
-| T02 | 540–570 (starts now) | false | AC1 | |
-| T03 | 720–720 (zero duration) | false | AC1 | |
+| T01 | 660–720 (touching after) | true | AC4 |The request starts exactly when the existing booking ends, so there is no overlap |
+| T02 | 540–570 (starts now) | false | AC1 |The start equals the current time, but it must be strictly later |
+| T03 | 720–720 (zero duration) | false | AC1 |The start and end are equal, but the end must be later than the start |
 | T04 | 750–720 (reversed) | false | AC1 | |
 | T05 | 1380–1441 (past day end) | false | AC1 | |
 | T06 | 720–840 (120 minutes) | true | AC2 | |
