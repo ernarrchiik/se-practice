@@ -272,4 +272,25 @@ describe('canBook — reviewed decisions and booking data preservation', () => {
     expect.soft(originalBookings).toStrictEqual(before);
     expect.soft(request.bookings).toStrictEqual(before);
   });
+  it("BUG-A: allows a one-minute gap between two unsorted bookings", () =>{
+    const bookings = [
+      {start:661, end:720},
+      {start: 600, end: 660},
+    ];
+    expect(
+      canBook({start: 660, end: 661, now:540, blocked: false,bookings}),
+    ).toBe(true);
+  });
+
+  it("BUG-B: an available request preserves the existing bookings", () => {
+    const bookings = [{ start: 600, end: 660 }];
+    const before = bookings.map((booking) => ({ ...booking }));
+
+    expect(
+      canBook({ start:720, end: 780, now:540, blocked: false,bookings}),
+
+    ).toBe(true);
+    expect(bookings).toEqual(before);
+  });
+
 });
