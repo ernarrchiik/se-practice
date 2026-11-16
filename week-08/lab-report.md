@@ -13,9 +13,9 @@ grader find your answers by them. You can add rows to any table, but never remov
 
 | | |
 | --- | --- |
-| Assistant I debugged with (tool) | |
-| Exact model (with its version, or `not displayed`) | |
-| Where the skill was installed (ChatGPT / Claude web / Claude Code / prompt-only simulation) | |
+| Assistant I debugged with (tool) | ChatGPT |
+| Exact model (with its version, or `not displayed`) | GPT-6.1 Sol |
+| Where the skill was installed (ChatGPT / Claude web / Claude Code / prompt-only simulation) | prompt-only simulation |
 | Where I ran the tests (Bolt terminal / my computer / Codespace) | My computer, in the VS Code terminal |
 | Vitest version (the `RUN  v…` line of a run) | 3.2.4 |
 | Language of my booking module (`ts` or `js`) — the file I copied from `buggy/` | `ts` |
@@ -1427,9 +1427,8 @@ One row per defect. At least **BUG-A and BUG-B**. "Suspected cause" is your hypo
 
 | Defect | Test ID | Input | Expected | Actual | Suspected cause (line and why) |
 | --- | --- | --- | --- | --- | --- |
-| BUG-A | | | | | |
-| BUG-B | | | | | |
-
+| BUG-A | BUG-A | Request 660–661, now = 540, room unblocked, two bookings touching the request at its endpoints | `true` under AC4 | Returned `false` | The overlap condition uses `<=` and `>=`, so equal endpoints are treated as an overlap. |
+| BUG-B | BUG-B | Request 720–780, room unblocked, existing booking 600–660 | `true`, with the original array unchanged under AC5 | Returned `true` and appended the request to the array | `bookings.push({ start, end })` writes directly to the caller's array. |
 ---
 
 ## 4. Tasks 2–3 — the skill
@@ -1438,16 +1437,23 @@ One row per defect. At least **BUG-A and BUG-B**. "Suspected cause" is your hypo
 
 | Check | yes / no |
 | --- | --- |
-| The file is plain UTF-8 text, named exactly `SKILL.md` (not `SKILL.md.txt`) | yes / no |
-| The first and the closing YAML delimiter are exactly three hyphens: `---` | yes / no |
-| `name` is lowercase with hyphens, and `description` says WHEN to use it | yes / no |
-| I read the whole file once: no passwords, API keys or private student data | yes / no |
+| The file is plain UTF-8 text, named exactly `SKILL.md` (not `SKILL.md.txt`) | yes  |
+| The first and the closing YAML delimiter are exactly three hyphens: `---` | yes |
+| `name` is lowercase with hyphens, and `description` says WHEN to use it | yes |
+| I read the whole file once: no passwords, API keys or private student data | yes |
 
 **The contents of `skills/bug-detector.zip`.** Paste the listing (Windows: open the ZIP and copy
-the paths; macOS/Linux: `unzip -l skills/bug-detector.zip`):
+the paths; macOS/Linux: `unzip -l skills/bug-detector.zip`):PK    e�p]���a  9    bug-detector/SKILL.mdUT	 m��jo��jux �     m�Mj1��s
+A�C�!�6��Zz ��LDflc�Ir��n]tcғ����}�q�
+���;�R�(��Q8�
+lG2Ֆ�.���68�����(�-�*�#�w0 O�.�%��1�yHtb:�ʁ`7cx�9���md�[���t�e��/d�Z�{
+�\I��� t�����}�t�o0ՙ�
+c
+����rhDy�iRf����}�l�},b�;����4-�B�X�dݕh�zѲ�l�{;��P�-��Ӭ ���aHa���̵�A��8V�J�H0�e��P� ^��c���B
+�hj$�^u��(gͯ�ߘ�uU�\&U<x+��6?$p����8�-]�r}�,�PK    e�p]���a  9           ��    bug-detector/SKILL.mdUT m��jux �     PK      [   �    
 
 ```text
-(paste here)
+I used a prompt-only simulation in ChatGPT. I sent the contents of SKILL.md as the first message in a fresh chat and captured the setup in evidence/install.png.
 ```
 
 **Installation.** Where you uploaded it, what the upload said, and whether a new chat showed the
@@ -1624,6 +1630,8 @@ Rerun the test that was failing, then the full suite.
 The change as a diff (`git diff`, or the old and the new line), then the real run:
 
 ```text
+-    if (start <= b.end && end >= b.start) return false;
++    if (start < b.end && end > b.start) return false;
  RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-08/app
 
  ✓ src/booking.test.ts (32 tests | 31 skipped) 1ms
@@ -1671,6 +1679,8 @@ The change as a diff (`git diff`, or the old and the new line), then the real ru
 The change as a diff, then the real output of the **full** suite. Every test must pass.
 
 ```text
+-  // keep the room's list current with the slot that was just found free
+-  bookings.push({ start, end });
 RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-08/app
 
  ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T01: AC4 allows touching after an existing booking 1ms
@@ -1718,27 +1728,16 @@ RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-08/app
 
 ### 9.1 Checks I am keeping as FAIL or ERROR
 
-Use the same IDs as `known_fails` in `submission.yml`. Write `none` if the run is clean.
-
 | Check | Why it stays |
 | --- | --- |
-| | |
+| Pending | I will update this section after rerunning the checker. |
 
 ### 9.2 One limitation of AI-assisted debugging
 
-<!-- Use something that actually happened in sections 5-8. 20 words or more. -->
--
+Both ChatGPT answers traced the supplied function and proposed fixes using the failure output. I still had to run Vitest locally to verify the changes against my full test suite.
 
 ---
 
 ## 10. Conclusion (80–150 words)
 
-<!-- Answer both, in your own words, without the assistant (3-5 sentences, as the deck asks):
-     (a) Did the skill help? Show it with one row of section 7.
-     (b) What did your tests actually prove - and what did they not?
-     Worthless: "The skill made the AI much better at debugging."
-     Worth everything: "Both answers found BUG-A from the T01 failure. Only the skill answer
-     separated BUG-B as a hypothesis instead of a fact, because step 4 told it to. BUG-B was only
-     visible after the BUG-A patch: the AC5 test had been failing for the wrong reason." -->
-
-<!-- Write your conclusion below this line -->
+Both answers found the endpoint bug and the mutation bug, and the skill simulation helped most in the reproducible-test row of section 7. The answer with the simulation proposed a separate 720–780 request that could expose the mutation even while touching requests were still rejected. Both regression tests failed on the buggy code, and all 32 tests passed after I applied the two fixes separately. The runs confirmed that touching requests were allowed and booking data stayed unchanged for the tested cases, while the desktop and mobile layout remained outside the scope of these unit tests.
