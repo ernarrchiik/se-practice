@@ -1,8 +1,8 @@
 # Week 08 — Lab report
 
-**Name:**
-**Group:**
-**Date:**
+**Name:** Berenbay Yernar
+**Group:** Mon 16:00-19:00
+**Date:** 16-11-2026
 
 Fill in every section. **Do not delete, rename or renumber the headings.** The checker and the
 grader find your answers by them. You can add rows to any table, but never remove its header.
@@ -16,9 +16,9 @@ grader find your answers by them. You can add rows to any table, but never remov
 | Assistant I debugged with (tool) | |
 | Exact model (with its version, or `not displayed`) | |
 | Where the skill was installed (ChatGPT / Claude web / Claude Code / prompt-only simulation) | |
-| Where I ran the tests (Bolt terminal / my computer / Codespace) | |
-| Vitest version (the `RUN  v…` line of a run) | |
-| Language of my booking module (`ts` or `js`) — the file I copied from `buggy/` | |
+| Where I ran the tests (Bolt terminal / my computer / Codespace) | My computer, in the VS Code terminal |
+| Vitest version (the `RUN  v…` line of a run) | 3.2.4 |
+| Language of my booking module (`ts` or `js`) — the file I copied from `buggy/` | `ts` |
 
 ---
 
@@ -30,7 +30,44 @@ The **real** output of your Week 07 suite, run in `week-08/app/` **before** you 
 anything. It should be green. If it is not, say why under the block.
 
 ```text
-(paste here)
+RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-08/app
+
+ ✓ src/booking.test.ts (30 tests) 4ms
+   ✓ canBook — reviewed decisions and booking data preservation (30)
+     ✓ T01: AC4 allows touching after an existing booking 1ms
+     ✓ T02: AC1 rejects a start equal to now 0ms
+     ✓ T03: AC1 rejects zero duration 0ms
+     ✓ T04: AC1 rejects a reversed interval 0ms
+     ✓ T05: AC1 rejects an end past 1440 0ms
+     ✓ T06: AC2 allows exactly 120 minutes 0ms
+     ✓ T07: AC2 rejects 121 minutes 0ms
+     ✓ T08: AC4 allows touching before an existing booking 0ms
+     ✓ T09: AC4 rejects partial overlap 0ms
+     ✓ T10: AC4 rejects a request containing an existing booking 0ms
+     ✓ T11: AC4 rejects a request inside an existing booking 0ms
+     ✓ T12: AC4 rejects an identical interval 0ms
+     ✓ T13: AC3 rejects an otherwise valid request when blocked 0ms
+     ✓ T14: AC4 allows a valid request with no existing bookings 0ms
+     ✓ X1: AC1 allows an end exactly at 1440 0ms
+     ✓ X2: AC4 allows touching both neighbouring bookings 0ms
+     ✓ B01: AC1 rejects a negative start 0ms
+     ✓ B02: AC1 rejects a start before now 0ms
+     ✓ B03: AC1 allows a start one minute after now 0ms
+     ✓ B04: AC1 allows start zero with an earlier supplied now 0ms
+     ✓ B05: AC4 rejects overlap in the second unsorted booking 0ms
+     ✓ B06: AC2 allows 119 minutes 0ms
+     ✓ B07: AC1 allows a one-minute duration 0ms
+     ✓ B08: AC4 rejects overlap with the first minute of a booking 0ms
+     ✓ B09: AC4 rejects overlap with the last minute of a booking 0ms
+     ✓ B10: AC4 allows a request separated before a booking 0ms
+     ✓ B11: AC4 allows a request separated after a booking 0ms
+     ✓ B12: AC3 rejects a blocked room with no existing bookings 0ms
+     ✓ B13: AC1 respects a different supplied current time 0ms
+     ✓ AC5: repeated available checks preserve unsorted booking data 0ms
+
+ Test Files  1 passed (1)
+      Tests  30 passed (30)
+   Start at  16:29:06
 ```
 
 ### 2.2 The same suite on the provided canBook
@@ -39,7 +76,655 @@ You copied the whole `canBook` function from `buggy/booking.ts` (or `.js`) over 
 nothing else. This is the real output:
 
 ```text
-(paste here)
+RUN  v3.2.4 /Users/ernarberenbaj/Documents/kbtu/se-practice/week-08/app
+
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T01: AC4 allows touching after an existing booking 4ms
+   → expected false to be true // Object.is equality
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T02: AC1 rejects a start equal to now 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T03: AC1 rejects zero duration 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T04: AC1 rejects a reversed interval 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T05: AC1 rejects an end past 1440 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T06: AC2 allows exactly 120 minutes 2ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T07: AC2 rejects 121 minutes 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T08: AC4 allows touching before an existing booking 0ms
+   → expected false to be true // Object.is equality
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T09: AC4 rejects partial overlap 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T10: AC4 rejects a request containing an existing booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T11: AC4 rejects a request inside an existing booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T12: AC4 rejects an identical interval 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T13: AC3 rejects an otherwise valid request when blocked 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T14: AC4 allows a valid request with no existing bookings 1ms
+   → expected [ { start: 630, end: 690 } ] to strictly equal []
+   → expected [ { start: 630, end: 690 } ] to strictly equal []
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X1: AC1 allows an end exactly at 1440 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X2: AC4 allows touching both neighbouring bookings 0ms
+   → expected false to be true // Object.is equality
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B01: AC1 rejects a negative start 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B02: AC1 rejects a start before now 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B03: AC1 allows a start one minute after now 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B04: AC1 allows start zero with an earlier supplied now 0ms
+   → expected [ { start: +0, end: 30 } ] to strictly equal []
+   → expected [ { start: +0, end: 30 } ] to strictly equal []
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B05: AC4 rejects overlap in the second unsorted booking 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B06: AC2 allows 119 minutes 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B07: AC1 allows a one-minute duration 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B08: AC4 rejects overlap with the first minute of a booking 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B09: AC4 rejects overlap with the last minute of a booking 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B10: AC4 allows a request separated before a booking 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B11: AC4 allows a request separated after a booking 0ms
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+   → expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B12: AC3 rejects a blocked room with no existing bookings 0ms
+ ✓ src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B13: AC1 respects a different supplied current time 0ms
+ × src/booking.test.ts > canBook — reviewed decisions and booking data preservation > AC5: repeated available checks preserve unsorted booking data 0ms
+   → expected false to be true // Object.is equality
+   → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T01: AC4 allows touching after an existing booking
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/booking.test.ts:41:43
+     39|     const request = fixture({ start: 660, end: 720 });
+     40| 
+     41|     expect(checkWithoutMutation(request)).toBe(true);
+       |                                           ^
+     42|   });
+     43| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T06: AC2 allows exactly 120 minutes
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 840,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:71:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T06: AC2 allows exactly 120 minutes
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 840,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:71:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T08: AC4 allows touching before an existing booking
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/booking.test.ts:83:43
+     81|     const request = fixture({ start: 570, end: 600 });
+     82| 
+     83|     expect(checkWithoutMutation(request)).toBe(true);
+       |                                           ^
+     84|   });
+     85| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T14: AC4 allows a valid request with no existing bookings
+AssertionError: expected [ { start: 630, end: 690 } ] to strictly equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "end": 690,
++     "start": 630,
++   },
++ ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:127:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > T14: AC4 allows a valid request with no existing bookings
+AssertionError: expected [ { start: 630, end: 690 } ] to strictly equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "end": 690,
++     "start": 630,
++   },
++ ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:127:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X1: AC1 allows an end exactly at 1440
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 1440,
++     "start": 1380,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:133:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X1: AC1 allows an end exactly at 1440
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 1440,
++     "start": 1380,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:133:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > X2: AC4 allows touching both neighbouring bookings
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/booking.test.ts:146:43
+    144|     });
+    145| 
+    146|     expect(checkWithoutMutation(request)).toBe(true);
+       |                                           ^
+    147|   });
+    148| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B03: AC1 allows a start one minute after now
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 570,
++     "start": 541,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:170:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B03: AC1 allows a start one minute after now
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 570,
++     "start": 541,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:170:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B04: AC1 allows start zero with an earlier supplied now
+AssertionError: expected [ { start: +0, end: 30 } ] to strictly equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "end": 30,
++     "start": 0,
++   },
++ ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:182:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B04: AC1 allows start zero with an earlier supplied now
+AssertionError: expected [ { start: +0, end: 30 } ] to strictly equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "end": 30,
++     "start": 0,
++   },
++ ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:182:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B06: AC2 allows 119 minutes
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 839,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:201:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B06: AC2 allows 119 minutes
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 839,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:201:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B07: AC1 allows a one-minute duration
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 721,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:207:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B07: AC1 allows a one-minute duration
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 721,
++     "start": 720,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:207:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B10: AC4 allows a request separated before a booking
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 599,
++     "start": 570,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:225:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B10: AC4 allows a request separated before a booking
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 599,
++     "start": 570,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:225:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B11: AC4 allows a request separated after a booking
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 720,
++     "start": 661,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:31:33
+     29|   const decision = canBook(request);
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+       |                                 ^
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+     33| 
+ ❯ src/booking.test.ts:231:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > B11: AC4 allows a request separated after a booking
+AssertionError: expected [ { start: 600, end: 660 }, …(1) ] to strictly equal [ { start: 600, end: 660 } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "end": 660,
+      "start": 600,
+    },
++   {
++     "end": 720,
++     "start": 661,
++   },
+  ]
+
+ ❯ checkWithoutMutation src/booking.test.ts:32:33
+     30| 
+     31|   expect.soft(originalBookings).toStrictEqual(before);
+     32|   expect.soft(request.bookings).toStrictEqual(before);
+       |                                 ^
+     33| 
+     34|   return decision;
+ ❯ src/booking.test.ts:231:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > AC5: repeated available checks preserve unsorted booking data
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/booking.test.ts:266:32
+    264| 
+    265|     const firstDecision = checkWithoutMutation(request);
+    266|     expect.soft(firstDecision).toBe(true);
+       |                                ^
+    267|     expect.soft(originalBookings).toStrictEqual(before);
+    268|     expect.soft(request.bookings).toStrictEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/23]⎯
+
+ FAIL  src/booking.test.ts > canBook — reviewed decisions and booking data preservation > AC5: repeated available checks preserve unsorted booking data
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/booking.test.ts:271:33
+    269| 
+    270|     const secondDecision = checkWithoutMutation(request);
+    271|     expect.soft(secondDecision).toBe(true);
+       |                                 ^
+    272|     expect.soft(originalBookings).toStrictEqual(before);
+    273|     expect.soft(request.bookings).toStrictEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/23]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 failed | 17 passed (30)
+   Start at  16:32:33
 ```
 
 ### 2.3 One failing test per bug
