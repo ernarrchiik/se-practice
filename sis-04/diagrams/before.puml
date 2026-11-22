@@ -1,0 +1,11 @@
+@startuml
+component "App.tsx" as App
+component "booking.ts" as Booking
+
+App --> Booking : imports canBook
+
+note right of App
+  Two-room catalog, room selection,
+  form state, and feedback
+end note
+@enduml

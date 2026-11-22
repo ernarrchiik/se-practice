@@ -1,0 +1,12 @@
+@startuml
+component "App.tsx" as App
+component "rooms.ts" as Rooms
+component "booking.ts" as Booking
+component "filter.ts" as Filter
+
+App --> Rooms : imports ROOMS
+App --> Booking : imports checkRoom
+App --> Filter : imports filterRooms
+Booking --> Rooms : imports Room type
+Filter --> Rooms : imports Room type
+@enduml
