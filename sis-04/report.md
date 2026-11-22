@@ -14,13 +14,13 @@
 
 | Item | Value |
 | --- | --- |
-| Assistant (tool) | (write here) |
-| Assistant model | (write here) |
-| Starting point | (write here) |
+| Assistant (tool) | ChatGPT |
+| Assistant model | GPT - 6.2 Sol |
+| Starting point | week-08 |
 | Baseline commit | (write here) |
-| Language (ts or js) | (write here) |
-| Vitest version | (write here) |
-| Where I ran the tests | (write here) |
+| Language (ts or js) | ts |
+| Vitest version | 3.2.4 |
+| Where I ran the tests | VS Code terminal on macOS, Node.js v24.13.1 |
 
 ### 1.1 Baseline run
 
