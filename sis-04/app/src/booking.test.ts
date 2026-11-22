@@ -35,7 +35,7 @@ function checkWithoutMutation(request: BookingRequest): boolean {
 }
 
 describe('canBook — reviewed decisions and booking data preservation', () => {
-  it('T01: AC4 allows touching after an existing booking', () => {
+  it('T01 B3: AC4 allows touching after an existing booking', () => {
     const request = fixture({ start: 660, end: 720 });
 
     expect(checkWithoutMutation(request)).toBe(true);
@@ -65,13 +65,13 @@ describe('canBook — reviewed decisions and booking data preservation', () => {
     expect(checkWithoutMutation(request)).toBe(false);
   });
 
-  it('T06: AC2 allows exactly 120 minutes', () => {
+  it('T06 B1: AC2 allows exactly 120 minutes', () => {
     const request = fixture({ start: 720, end: 840 });
 
     expect(checkWithoutMutation(request)).toBe(true);
   });
 
-  it('T07: AC2 rejects 121 minutes', () => {
+  it('T07 B2: AC2 rejects 121 minutes', () => {
     const request = fixture({ start: 720, end: 841 });
 
     expect(checkWithoutMutation(request)).toBe(false);
@@ -83,7 +83,7 @@ describe('canBook — reviewed decisions and booking data preservation', () => {
     expect(checkWithoutMutation(request)).toBe(true);
   });
 
-  it('T09: AC4 rejects partial overlap', () => {
+  it('T09 B4: AC4 rejects partial overlap', () => {
     const request = fixture({ start: 630, end: 690 });
 
     expect(checkWithoutMutation(request)).toBe(false);
